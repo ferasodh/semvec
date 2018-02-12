@@ -1,0 +1,11 @@
+import data_helpers
+
+x_text, Y = data_helpers.load_data_and_y_labels("../data/rt-polaritydata/rt-polarity.pos",
+                                                    "../data/rt-polaritydata/rt-polarity.neg")
+
+f = open("../data/twds-compined.txt","w+")
+id=0
+for item in x_text:
+    f.write("ID%s\t%s\n" % (id,item))
+    id=id+1
+f.close()
