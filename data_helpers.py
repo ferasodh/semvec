@@ -7,7 +7,6 @@ import string,nltk,codecs
 from nltk.stem.porter import *
 from nltk.corpus import wordnet as WN
 from nltk.corpus import stopwords
-from TwitterCleanuper import TwitterCleanuper
 from featureextractionmodules.FeatureExtractionUtilities import FeatureExtractionUtilities
 """
 Original taken from https://github.com/dennybritz/cnn-text-classification-tf
