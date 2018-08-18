@@ -8,7 +8,7 @@ from data_helpers import clean_str, clean_tweet, load_semeval_and_y_labels
 import re as regex
 import csv
 from collections import OrderedDict, defaultdict, Counter
-import numpy
+import cupy
 from featureextractionmodules import twokenize
 from featureextractionmodules.FeatureExtractionUtilities import FeatureExtractionUtilities
 from nltk.tokenize import TweetTokenizer
@@ -24,8 +24,8 @@ def generate_senti_features(text):
     pos_tags = nltk.pos_tag(terms, 'universal')
     # print tags
 
-    sentence_pos = numpy.zeros(32)
-    sentence_neg = numpy.zeros(32)
+    sentence_pos = cupy.zeros(32)
+    sentence_neg = cupy.zeros(32)
 
     min_len = min(32, len(pos_tags))
 
@@ -89,11 +89,11 @@ for (pos_list,neg_list) in p.map(generate_senti_features, x_text):
 
 
 
-pos_feature_list = numpy.expand_dims(pos_feature_list, axis=2)
-neg_feature_list = numpy.expand_dims(neg_feature_list, axis=2)
+pos_feature_list = cupy.expand_dims(pos_feature_list, axis=2)
+neg_feature_list = cupy.expand_dims(neg_feature_list, axis=2)
 
 
 
 data_set="SemEval2015"
-numpy.save("dump/" + data_set + "Test/pposScore", pos_feature_list)
-numpy.save("dump/" + data_set + "Test/nnegScore", neg_feature_list)
+cupy.save("dump/" + data_set + "Test/pposScore", pos_feature_list)
+cupy.save("dump/" + data_set + "Test/nnegScore", neg_feature_list)

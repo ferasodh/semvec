@@ -1,4 +1,4 @@
-import numpy
+import cupy
 
 from data_helpers import clean_str, load_data_and_y_labels
 from featureextractionmodules.FeatureExtractionUtilities import FeatureExtractionUtilities
@@ -17,7 +17,7 @@ stop_words_en = set(stopwords.words('english'))
 def generate_ade_feature(text):
     terms = twokenize.tokenizeRawTweetText(text)
     tags = nltk.pos_tag(terms, 'universal')
-    sentence_arr = numpy.zeros(32)
+    sentence_arr = cupy.zeros(32)
     ade_count = 0
     min_len = min(32, len(tags))
     for i in range(0, min_len):
@@ -133,7 +133,7 @@ for ade_arr in p.map(generate_ade_feature, x_text):
 #     sentence_ade.append(arr)
 
 data_set="ADE"
-numpy.save("dump/" + data_set + "/ade-no-stopwords", sentence_ade)
+cupy.save("dump/" + data_set + "/ade-no-stopwords", sentence_ade)
 
 # print sentence_ade.shape
 

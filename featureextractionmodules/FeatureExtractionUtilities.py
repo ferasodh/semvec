@@ -20,7 +20,7 @@ from sklearn.metrics import accuracy_score
 # from KaggleWord2VecUtility import KaggleWord2VecUtility
 import pandas as pd
 from sklearn import svm
-import numpy as np
+import cupy as np
 # import gloS
 import json
 import re

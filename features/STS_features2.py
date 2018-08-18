@@ -9,7 +9,7 @@ from emoticons import EmoticonDetector
 import re as regex
 import csv
 from collections import OrderedDict, defaultdict, Counter
-import numpy
+import cupy
 from featureextractionmodules import twokenize
 from nltk.tokenize import TweetTokenizer
 from pathos.multiprocessing import ProcessingPool as Pool
@@ -22,9 +22,9 @@ def generate_emotion_features(text):
     tags = nltk.pos_tag(terms, 'universal')
     # print tags
 
-    valence_list = numpy.zeros(32)
-    arousal_list = numpy.zeros(32)
-    dominance_list = numpy.zeros(32)
+    valence_list = cupy.zeros(32)
+    arousal_list = cupy.zeros(32)
+    dominance_list = cupy.zeros(32)
 
     min_len = min(32, len(tags))
 
@@ -70,12 +70,12 @@ for (valence_list,arousal_list,dominance_list) in p.map(generate_emotion_feature
     dominance_feature_list.append(dominance_list)
 
 
-valence_feature_list = numpy.expand_dims(valence_feature_list, axis=2)
-arousal_feature_list = numpy.expand_dims(arousal_feature_list, axis=2)
-dominance_feature_list = numpy.expand_dims(dominance_feature_list, axis=2)
+valence_feature_list = cupy.expand_dims(valence_feature_list, axis=2)
+arousal_feature_list = cupy.expand_dims(arousal_feature_list, axis=2)
+dominance_feature_list = cupy.expand_dims(dominance_feature_list, axis=2)
 
 
 data_set="MR"
-numpy.save("../dump/" + data_set + "/valence_feature_list", valence_feature_list)
-numpy.save("../dump/" + data_set + "/arousal_feature_list", arousal_feature_list)
-numpy.save("../dump/" + data_set + "/dominance_feature_list", dominance_feature_list)
+cupy.save("../dump/" + data_set + "/valence_feature_list", valence_feature_list)
+cupy.save("../dump/" + data_set + "/arousal_feature_list", arousal_feature_list)
+cupy.save("../dump/" + data_set + "/dominance_feature_list", dominance_feature_list)

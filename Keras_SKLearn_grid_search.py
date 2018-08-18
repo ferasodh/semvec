@@ -2,7 +2,7 @@
 from keras.models import Sequential
 from keras.wrappers.scikit_learn import KerasClassifier
 from sklearn.model_selection import  GridSearchCV
-import numpy
+import cupy
 from keras.layers import  Dense, Dropout, Activation, Flatten,Conv1D, MaxPooling1D, LSTM
 import data_helpers
 from featureextractionmodules.FeatureExtractionUtilities import FeatureExtractionUtilities
@@ -66,21 +66,21 @@ task_number=args.task_number
 
 
 if os.path.isfile("dump/" + data_set + "/negScore.npy") and os.stat("dump/" + data_set + "/negScore.npy").st_size > 0:
-    negScore = numpy.load("dump/" + data_set + "/negScore.npy")
-    posScore = numpy.load("dump/" + data_set + "/posScore.npy")
-    adeScore = numpy.load("dump/" + data_set + "/adeScore.npy")
-    subjScore = numpy.load("dump/" + data_set + "/subjScore.npy")
-    pposScore = numpy.load("dump/" + data_set + "/pposScore.npy")
-    nnegScore = numpy.load("dump/" + data_set + "/nnegScore.npy")
-    moreGoodScore = numpy.load("dump/" + data_set + "/moreGoodScore.npy")
-    moreBadScore = numpy.load("dump/" + data_set + "/moreBadScore.npy")
-    lessBadScore = numpy.load("dump/" + data_set + "/lessBadScore.npy")
-    lessGoodScore = numpy.load("dump/" + data_set + "/lessGoodScore.npy")
-    sentence_cluster = numpy.load("dump/" + data_set + "/sentence_cluster.npy")
-    sentence_cluster2 = numpy.load("dump/" + data_set + "/sentence_cluster2.npy")
-    wordLength = numpy.load("dump/" + data_set + "/wordLength.npy")
-    wordOrder = numpy.load("dump/" + data_set + "/wordOrder.npy")
-    Y = numpy.load("dump/" + data_set + "/Y.npy")
+    negScore = cupy.load("dump/" + data_set + "/negScore.npy")
+    posScore = cupy.load("dump/" + data_set + "/posScore.npy")
+    adeScore = cupy.load("dump/" + data_set + "/adeScore.npy")
+    subjScore = cupy.load("dump/" + data_set + "/subjScore.npy")
+    pposScore = cupy.load("dump/" + data_set + "/pposScore.npy")
+    nnegScore = cupy.load("dump/" + data_set + "/nnegScore.npy")
+    moreGoodScore = cupy.load("dump/" + data_set + "/moreGoodScore.npy")
+    moreBadScore = cupy.load("dump/" + data_set + "/moreBadScore.npy")
+    lessBadScore = cupy.load("dump/" + data_set + "/lessBadScore.npy")
+    lessGoodScore = cupy.load("dump/" + data_set + "/lessGoodScore.npy")
+    sentence_cluster = cupy.load("dump/" + data_set + "/sentence_cluster.npy")
+    sentence_cluster2 = cupy.load("dump/" + data_set + "/sentence_cluster2.npy")
+    wordLength = cupy.load("dump/" + data_set + "/wordLength.npy")
+    wordOrder = cupy.load("dump/" + data_set + "/wordOrder.npy")
+    Y = cupy.load("dump/" + data_set + "/Y.npy")
 else:
     # file = open("testfile.txt", "wb")
     x_text, Y = data_helpers.load_data_and_y_labels("./data/rt-polaritydata/sts-gold.pos",
@@ -92,53 +92,53 @@ else:
     s, negScore, posScore, adeScore, subjScore, pposScore, nnegScore, moreGoodScore, moreBadScore, lessBadScore, lessGoodScore, sentence_cluster, sentence_cluster2, wordLength, wordOrder = FeatureExtractionUtilities.generateSemVec(
         x_text, max_document_length, embed_size=1)
 
-    s = numpy.array(s)
-    negScore = numpy.array(negScore)
-    posScore = numpy.array(posScore)
-    adeScore = numpy.array(adeScore)
-    subjScore = numpy.array(subjScore)
-    pposScore = numpy.array(pposScore)
-    nnegScore = numpy.array(nnegScore)
-    moreGoodScore = numpy.array(moreGoodScore)
-    moreBadScore = numpy.array(moreBadScore)
-    lessBadScore = numpy.array(lessBadScore)
-    lessGoodScore = numpy.array(lessGoodScore)
-    sentence_cluster = numpy.array(sentence_cluster)
-    sentence_cluster2 = numpy.array(sentence_cluster2)
-    wordLength = numpy.array(wordLength)
-    wordOrder = numpy.array(wordOrder)
+    s = cupy.array(s)
+    negScore = cupy.array(negScore)
+    posScore = cupy.array(posScore)
+    adeScore = cupy.array(adeScore)
+    subjScore = cupy.array(subjScore)
+    pposScore = cupy.array(pposScore)
+    nnegScore = cupy.array(nnegScore)
+    moreGoodScore = cupy.array(moreGoodScore)
+    moreBadScore = cupy.array(moreBadScore)
+    lessBadScore = cupy.array(lessBadScore)
+    lessGoodScore = cupy.array(lessGoodScore)
+    sentence_cluster = cupy.array(sentence_cluster)
+    sentence_cluster2 = cupy.array(sentence_cluster2)
+    wordLength = cupy.array(wordLength)
+    wordOrder = cupy.array(wordOrder)
 
-    numpy.save("dump/" + data_set + "/negScore", negScore)
-    numpy.save("dump/" + data_set + "/posScore", posScore)
-    numpy.save("dump/" + data_set + "/adeScore", adeScore)
-    numpy.save("dump/" + data_set + "/subjScore", subjScore)
-    numpy.save("dump/" + data_set + "/pposScore", pposScore)
-    numpy.save("dump/" + data_set + "/nnegScore", nnegScore)
-    numpy.save("dump/" + data_set + "/moreGoodScore", moreGoodScore)
-    numpy.save("dump/" + data_set + "/moreBadScore", moreBadScore)
-    numpy.save("dump/" + data_set + "/lessBadScore", lessBadScore)
-    numpy.save("dump/" + data_set + "/lessGoodScore", lessGoodScore)
-    numpy.save("dump/" + data_set + "/sentence_cluster", sentence_cluster)
-    numpy.save("dump/" + data_set + "/sentence_cluster2", sentence_cluster2)
-    numpy.save("dump/" + data_set + "/wordLength", wordLength)
-    numpy.save("dump/" + data_set + "/wordOrder", wordOrder)
-    numpy.save("dump/" + data_set + "/Y", Y)
-# X = numpy.load("testfile.npy")
+    cupy.save("dump/" + data_set + "/negScore", negScore)
+    cupy.save("dump/" + data_set + "/posScore", posScore)
+    cupy.save("dump/" + data_set + "/adeScore", adeScore)
+    cupy.save("dump/" + data_set + "/subjScore", subjScore)
+    cupy.save("dump/" + data_set + "/pposScore", pposScore)
+    cupy.save("dump/" + data_set + "/nnegScore", nnegScore)
+    cupy.save("dump/" + data_set + "/moreGoodScore", moreGoodScore)
+    cupy.save("dump/" + data_set + "/moreBadScore", moreBadScore)
+    cupy.save("dump/" + data_set + "/lessBadScore", lessBadScore)
+    cupy.save("dump/" + data_set + "/lessGoodScore", lessGoodScore)
+    cupy.save("dump/" + data_set + "/sentence_cluster", sentence_cluster)
+    cupy.save("dump/" + data_set + "/sentence_cluster2", sentence_cluster2)
+    cupy.save("dump/" + data_set + "/wordLength", wordLength)
+    cupy.save("dump/" + data_set + "/wordOrder", wordOrder)
+    cupy.save("dump/" + data_set + "/Y", Y)
+# X = cupy.load("testfile.npy")
 
-X = numpy.concatenate([negScore, posScore,  subjScore, pposScore, nnegScore, adeScore,
+X = cupy.concatenate([negScore, posScore,  subjScore, pposScore, nnegScore, adeScore,
                        moreGoodScore, moreBadScore, lessBadScore, lessGoodScore, wordLength, wordOrder], axis=2)
 
-    # numpy.save("testfile", X)
-    # numpy.save("testfiley",Y)
+    # cupy.save("testfile", X)
+    # cupy.save("testfiley",Y)
 
 
-# X=numpy.expand_dims(X, axis=3)
+# X=cupy.expand_dims(X, axis=3)
 
 
 
 # fix random seed for reproducibility
 seed = 7
-numpy.random.seed(seed)
+cupy.random.seed(seed)
 # load pima indians dataset
 
 pool_size=[2]

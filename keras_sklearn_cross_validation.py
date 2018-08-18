@@ -13,6 +13,10 @@ from keras_models import create_model2, ltsm_model, create_model, model3, model4
 from plot_utils import plot_fold_results, plot
 from utils import get_time_diff
 import matplotlib
+
+
+from keras import backend as K
+
 # Force matplotlib to not use any Xwindows backend.
 
 # matplotlib.use('Agg')

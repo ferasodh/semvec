@@ -9,7 +9,7 @@ from emoticons import EmoticonDetector
 import re as regex
 import csv
 from collections import OrderedDict, defaultdict, Counter
-import numpy
+import cupy
 from featureextractionmodules import twokenize
 from nltk.tokenize import TweetTokenizer
 from pathos.multiprocessing import ProcessingPool as Pool
@@ -19,16 +19,16 @@ def generate_emotion_features(text):
     tags = nltk.pos_tag(terms, 'universal')
     # print tags
 
-    anger_list = numpy.zeros(32)
-    anticipation_list = numpy.zeros(32)
-    disgust_list = numpy.zeros(32)
-    fear_list = numpy.zeros(32)
-    joy_list = numpy.zeros(32)
-    negative_list = numpy.zeros(32)
-    positive_list = numpy.zeros(32)
-    sadness_list = numpy.zeros(32)
-    surprise_list = numpy.zeros(32)
-    trust_list = numpy.zeros(32)
+    anger_list = cupy.zeros(32)
+    anticipation_list = cupy.zeros(32)
+    disgust_list = cupy.zeros(32)
+    fear_list = cupy.zeros(32)
+    joy_list = cupy.zeros(32)
+    negative_list = cupy.zeros(32)
+    positive_list = cupy.zeros(32)
+    sadness_list = cupy.zeros(32)
+    surprise_list = cupy.zeros(32)
+    trust_list = cupy.zeros(32)
 
     anger_cnt = 0
     anticipation_cnt = 0
@@ -165,7 +165,7 @@ x_text, Y = data_helpers.load_data_and_y_labels("../data/MR/rt-polarity.pos",
 
 
 
-# sentence_arr = numpy.zeros(32)
+# sentence_arr = cupy.zeros(32)
 # print wordList['good']
 #
 #
@@ -200,25 +200,25 @@ for (anger_list,anticipation_list,disgust_list,fear_list,joy_list,negative_list,
     trust_feature_list.append(trust_list)
 
 
-anger_feature_list = numpy.expand_dims(anger_feature_list, axis=2)
-anticipation_feature_list = numpy.expand_dims(anticipation_feature_list, axis=2)
-disgust_feature_list = numpy.expand_dims(disgust_feature_list, axis=2)
-fear_feature_list = numpy.expand_dims(fear_feature_list, axis=2)
-joy_feature_list = numpy.expand_dims(joy_feature_list, axis=2)
-negative_feature_list = numpy.expand_dims(negative_feature_list, axis=2)
-positive_feature_list = numpy.expand_dims(positive_feature_list, axis=2)
-sadness_feature_list = numpy.expand_dims(sadness_feature_list, axis=2)
-surprise_feature_list = numpy.expand_dims(surprise_feature_list, axis=2)
-trust_feature_list = numpy.expand_dims(trust_feature_list, axis=2)
+anger_feature_list = cupy.expand_dims(anger_feature_list, axis=2)
+anticipation_feature_list = cupy.expand_dims(anticipation_feature_list, axis=2)
+disgust_feature_list = cupy.expand_dims(disgust_feature_list, axis=2)
+fear_feature_list = cupy.expand_dims(fear_feature_list, axis=2)
+joy_feature_list = cupy.expand_dims(joy_feature_list, axis=2)
+negative_feature_list = cupy.expand_dims(negative_feature_list, axis=2)
+positive_feature_list = cupy.expand_dims(positive_feature_list, axis=2)
+sadness_feature_list = cupy.expand_dims(sadness_feature_list, axis=2)
+surprise_feature_list = cupy.expand_dims(surprise_feature_list, axis=2)
+trust_feature_list = cupy.expand_dims(trust_feature_list, axis=2)
 
 data_set="MR"
-numpy.save("../dump/" + data_set + "/anger_feature_list", anger_feature_list)
-numpy.save("../dump/" + data_set + "/anticipation_feature_list", anticipation_feature_list)
-numpy.save("../dump/" + data_set + "/disgust_feature_list", disgust_feature_list)
-numpy.save("../dump/" + data_set + "/fear_feature_list", fear_feature_list)
-numpy.save("../dump/" + data_set + "/joy_feature_list", joy_feature_list)
-numpy.save("../dump/" + data_set + "/negative_feature_list", negative_feature_list)
-numpy.save("../dump/" + data_set + "/positive_feature_list", positive_feature_list)
-numpy.save("../dump/" + data_set + "/sadness_feature_list", sadness_feature_list)
-numpy.save("../dump/" + data_set + "/surprise_feature_list", surprise_feature_list)
-numpy.save("../dump/" + data_set + "/trust_feature_list", trust_feature_list)
+cupy.save("../dump/" + data_set + "/anger_feature_list", anger_feature_list)
+cupy.save("../dump/" + data_set + "/anticipation_feature_list", anticipation_feature_list)
+cupy.save("../dump/" + data_set + "/disgust_feature_list", disgust_feature_list)
+cupy.save("../dump/" + data_set + "/fear_feature_list", fear_feature_list)
+cupy.save("../dump/" + data_set + "/joy_feature_list", joy_feature_list)
+cupy.save("../dump/" + data_set + "/negative_feature_list", negative_feature_list)
+cupy.save("../dump/" + data_set + "/positive_feature_list", positive_feature_list)
+cupy.save("../dump/" + data_set + "/sadness_feature_list", sadness_feature_list)
+cupy.save("../dump/" + data_set + "/surprise_feature_list", surprise_feature_list)
+cupy.save("../dump/" + data_set + "/trust_feature_list", trust_feature_list)
